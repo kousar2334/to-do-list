@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interfaces;
 
 interface UserInterface
 {
-    public function register($request);
+    public function register($data);
 }

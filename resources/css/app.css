@@ -67,3 +67,9 @@ button {
     color: white;
     text-align: center;
 }
+.fz-12{
+    font-size: 12px;
+}
+.loading{
+    cursor:not-allowed ;
+}
