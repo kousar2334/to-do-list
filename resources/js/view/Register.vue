@@ -53,6 +53,7 @@
 import axios from "axios";
 import { defineComponent, reactive } from "vue";
 import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
 export default defineComponent({
     setup() {
         const state = reactive({
@@ -64,6 +65,7 @@ export default defineComponent({
             submit_data: false,
         });
         const toast = useToast();
+        const router = useRouter();
 
         function userRegistration() {
             state.submit_data = true;
@@ -76,7 +78,7 @@ export default defineComponent({
             }).then((response) => {
                 if (response.data.success) {
                     toast.success("Registration successfully");
-                    this.$router.push('/login')
+                    router.push('/login')
                 }
                 if (!response.data.success) {
                     toast.error("Registration Failed");
