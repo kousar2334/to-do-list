@@ -1,21 +1,24 @@
 <template>
-    <div class="row">
-        <div class="col-12 mt-3">
-            <button class="btn btn-success rounded" @click="data.newListModalShow = !data.newListModalShow">
-                Add New Todo List
-            </button>
+    <div class="tasks">
+        <div class="task-header">
+            <h6>{{ list.name }}</h6>
         </div>
-        <!--To do list-->
-        <div class="col-lg-3" v-for="(list, listIndex) in data.lists">
-            <list :list="list" :index="listIndex"></list>
+        <div class="d-flex justify-content-center mb-3 rounded-1 tasks__item__toggle">
+            <a @click="data.newTaskModalShow = !data.newTaskModalShow">
+                + Add New Task
+            </a>
         </div>
-        <!--End to do list-->
-        <!--New List modal-->
-        <b-modal v-model="data.newListModalShow" title="Create New List" hide-footer>
+        <div class="tasks-body p-0">
+            <task-item v-for="(task, index) in data.tasks" @remove="removeTask(index)" @complete="completeTask(task)"
+                :task="task" :key="task">
+            </task-item>
+        </div>
+        <!--New Task modal-->
+        <b-modal v-model="data.newTaskModalShow" title="Create New Task" hide-footer>
             <b-container fluid>
                 <div class="form-group pb-3">
-                    <label class="mb-2">List Name</label>
-                    <input type="text" placeholder="Name" class="form-control" v-model="data.newList">
+                    <label class="mb-2">Task Name</label>
+                    <input type="text" placeholder="Name" class="form-control" v-model="data.newTask">
                     <template v-if="data.errors.name">
                         <p class="fz-12 text-danger mt-1 mb-0" v-for="(error, index) in data.errors.name" :key="index">
                             {{ error }}
@@ -24,30 +27,36 @@
                 </div>
                 <div class="m-0 row">
                     <button class="btn btn-primary" :class="{ loading: data.submit_data }"
-                        @click.prevent="storeNewList">Save</button>
+                        @click.prevent="storeNewTask">Save</button>
                 </div>
             </b-container>
         </b-modal>
-        <!--End new list modal-->
+        <!--End New Task modal-->
     </div>
 </template>
 <script>
 import axios from "axios";
 import { defineComponent, reactive } from "vue";
 import { useToast } from "vue-toastification";
-import List from "../components/List.vue"
+import TaskItem from './TaskItem.vue';
 import { useStore } from 'vuex';
 import { onMounted } from "vue";
 export default defineComponent({
-    name: "Home",
-    components: { List },
-    setup() {
+    name: "List",
+    components: { TaskItem },
+    props: {
+        list: {
+            type: Object,
+            required: true,
+        }
+    },
+    setup(props) {
         const data = reactive({
             errors: [],
             submit_data: false,
-            newList: "",
-            lists: [],
-            newListModalShow: false,
+            newTask: "",
+            tasks: [],
+            newTaskModalShow: false,
             currentPage: 1,
         });
         const toast = useToast();
@@ -59,23 +68,23 @@ export default defineComponent({
         }
 
         onMounted(() => {
-            getLists();
+            getTasks();
         });
 
-        function storeNewList() {
+        function storeNewTask() {
             data.submit_data = true;
             data.errors = [];
-            axios.post('api/v1/store-list', {
-                name: data.newList,
+            axios.post('api/v1/store-task', {
+                name: data.newTask,
+                todo_list_id: props.list.id
             }, config).then((response) => {
                 if (response.data.success) {
-                    data.newListModalShow = false;
-                    data.newList = "";
-                    toast.success("New list created successfully");
-                    getLists();
+                    data.newTaskModalShow = false;
+                    data.newTask = "";
+                    getTasks();
                 }
                 if (!response.data.success) {
-                    toast.error("List create failed");
+                    toast.error("Task create failed");
                 }
                 data.submit_data = false;
             }).catch((error) => {
@@ -84,32 +93,33 @@ export default defineComponent({
                     data.errors = error.response.data.errors;
                 }
                 if (!error.response.status == 422) {
-                    toast.error("List create failed");
+                    toast.error("Task create failed");
                 }
 
             });
         }
 
-        function getLists() {
-            axios.post('api/v1/get-to-do-lists', {
+        function getTasks() {
+            axios.post('api/v1/task-lists', {
                 page: data.currentPage,
+                list_id: props.list.id
             }, config).then((response) => {
                 if (response.data.success) {
-                    data.lists = response.data.data;
+                    data.tasks = response.data.data;
                     data.currentPage = response.data.meta.current_page
                 }
                 if (!response.data.success) {
-                    toast.error("Data Loading failed");
+                    data.tasks = [];
                 }
             }).catch((error) => {
-                toast.error("Data Loading failed");
+                data.tasks = [];
             });
         }
 
         return {
             data,
-            storeNewList,
-            getLists
+            storeNewTask,
+            getTasks,
         };
     },
 

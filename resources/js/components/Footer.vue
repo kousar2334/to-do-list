@@ -1,7 +1,7 @@
 <template>
     <footer class="footer">
-        <p>Author: Hege Refsnes
-            <a href="mailto:hege@example.com">hege@example.com</a>
+        <p>
+            <a href="mailto:kousar.cse2334@gmail.com">Kousar Rahman@kousar.cse2334@gmail.com</a>
         </p>
     </footer>
 </template>
