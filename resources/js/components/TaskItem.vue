@@ -6,16 +6,16 @@
             </p>
         </div>
         <div class="action-area d-flex justify-content-between">
-            <p class="mb-0">{{ task.date }}</p>
+            <p class="mb-0 small text-secondary">{{ task.date }}</p>
             <div class="action-btn d-flex gap-2">
-                <button class="p-0 border-0 text-secondary fs-6"
-                    :class="{ completed: task.status == 1, incomplete: task.status == 0 }" title="Make incomplete">
+                <button class="task-action-btn" :class="{ done: task.status == 1, pending: task.status == 0 }"
+                    title="Change Status" @click="changeStatus">
                     <font-awesome-icon icon="fas fa-check" />
                 </button>
-                <button class="task-edit-btn p-0 border-0 text-secondary fs-6" @click="$emit('remove')">
+                <button class="task-action-btn" @click="editTask" title="Edit Task">
                     <font-awesome-icon icon="fas fa-pencil" />
                 </button>
-                <button class="task-remove-btn p-0 border-0 text-danger" @click="removeTask()">
+                <button class="task-action-btn danger" @click="deleteTask" title="Delete Task">
                     <font-awesome-icon icon="fas fa-trash-alt" />
                 </button>
 
@@ -24,10 +24,7 @@
     </div>
 </template>
 <script>
-import axios from "axios";
-import { defineComponent, reactive } from "vue";
-import { useToast } from "vue-toastification";
-import { useStore } from 'vuex';
+import { defineComponent } from "vue";
 export default defineComponent({
     name: "TaskItem",
     props: {
@@ -36,41 +33,23 @@ export default defineComponent({
             required: true,
         }
     },
-    setup(props) {
-        const data = reactive({
-            errors: [],
-            submit_data: false,
-            newTaskModalShow: false,
-            currentPage: 1,
-        });
-        const toast = useToast();
-        const store = useStore();
-        const config = {
-            headers: {
-                Authorization: `Bearer ${store.getters.userToken}`,
-            },
+    setup(props, { emit }) {
+
+        function deleteTask() {
+            emit('deleteTask', props.task.id);
         }
 
-        function removeTask() {
-            axios.post('api/v1/delete-task', {
-                id: props.task.id,
-            }, config).then((response) => {
-                if (response.data.success) {
-                    toast.success("Task deleted successfully");
-                }
-                if (!response.data.success) {
-                    toast.error("Task delete failed");
-                }
-            }).catch((error) => {
-                toast.error("Task delete failed");
-            });
+        function editTask() {
+            emit('editTask', props.task);
         }
-
-
+        function changeStatus() {
+            emit('changeStatus', props.task.id);
+        }
 
         return {
-            data,
-            removeTask,
+            deleteTask,
+            editTask,
+            changeStatus
         };
     },
 

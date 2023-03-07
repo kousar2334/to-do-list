@@ -25,4 +25,14 @@ class TodoListController extends ApiController
     {
         return new TodoListCollection($this->todo_repository->lists($request));
     }
+
+    public function updateList(ListRequest $request): JsonResponse
+    {
+        return $this->todo_repository->update($request) ? $this->withSuccess() : $this->withError();
+    }
+
+    public function deleteList(Request $request)
+    {
+        return $this->todo_repository->delete($request['id']) ? $this->withSuccess() : $this->withError();
+    }
 }

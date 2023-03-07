@@ -73,3 +73,24 @@ button {
 .loading{
     cursor:not-allowed ;
 }
+
+.task-action-btn{
+    font-size: 12px;
+    border: none;
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+    text-align: center;
+}
+.task-action-btn.done{
+    color: #fff;
+    background-color: green;
+}
+.task-action-btn.danger {
+    color: red;
+}
+
+.task-action-btn.danger:hover {
+    color: #fff;
+    background-color: red;
+}

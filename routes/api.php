@@ -27,6 +27,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::controller(TodoListController::class)->group(function () {
             Route::post('store-list', 'store');
             Route::post('get-to-do-lists', 'todoLists');
+            Route::post('update-list', 'updateList');
+            Route::post('delete-list', 'deleteList');
         });
         /**
          * Tasks
@@ -35,6 +37,8 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('store-task', 'store');
             Route::post('task-lists', 'taskList');
             Route::post('delete-task', 'deleteTask');
+            Route::post('update-task', 'updateTask');
+            Route::post('change-task-status', 'changeTaskStatus');
         });
     });
 });

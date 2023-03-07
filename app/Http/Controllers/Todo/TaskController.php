@@ -31,4 +31,14 @@ class TaskController extends ApiController
     {
         return $this->task_repository->deleteTask($request['id']) ? $this->withSuccess() : $this->withError();
     }
+
+    public function updateTask(TaskRequest $request): JsonResponse
+    {
+        return $this->task_repository->update($request) ? $this->withSuccess() : $this->withError();
+    }
+
+    public function changeTaskStatus(Request $request): JsonResponse
+    {
+        return $this->task_repository->changeStatus($request['id']) ? $this->withSuccess() : $this->withError();
+    }
 }
