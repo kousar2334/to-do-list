@@ -25,7 +25,9 @@ class TodoListRepository implements TodoListInterface
 
     public function lists($data): Paginator
     {
-        return TodoList::with('tasks:name,id,todo_list_id,created_at,status')
+        return TodoList::with(['tasks' => function ($query) {
+            return $query->orderBy('id', 'DESC');
+        }])
             ->where('user_id', auth('jwt-auth')->user()->id)
             ->orderBy('id', 'DESC')
             ->paginate(4);
