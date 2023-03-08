@@ -15,6 +15,7 @@ class TodoListRepository implements TodoListInterface
         try {
             $list = new TodoList();
             $list->name = $data['name'];
+            $list->user_id = auth('jwt-auth')->user()->id;
             $list->save();
             return true;
         } catch (\Exception $e) {
@@ -24,14 +25,18 @@ class TodoListRepository implements TodoListInterface
 
     public function lists($data): Paginator
     {
-        return TodoList::orderBy('id', 'DESC')->paginate(4);
+        return TodoList::where('user_id', auth('jwt-auth')->user()->id)
+            ->orderBy('id', 'DESC')
+            ->paginate(4);
     }
 
     public function update($data): bool
     {
         try {
             DB::beginTransaction();
-            $list = TodoList::where('id', $data['id'])->first();
+            $list = TodoList::where('id', $data['id'])
+                ->where('user_id', auth('jwt-auth')->user()->id)
+                ->first();
             if ($list != null) {
                 $list->name = $data['name'];
                 $list->save();
@@ -50,7 +55,10 @@ class TodoListRepository implements TodoListInterface
     {
         try {
             DB::beginTransaction();
-            $list = TodoList::where('id', $id)->first();
+            $list = TodoList::where('id', $id)
+                ->where('user_id', auth('jwt-auth')->user()->id)
+                ->first();
+
             if ($list != null) {
                 $list->delete();
                 DB::commit();
