@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\TaskCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TodoListCollection extends ResourceCollection
@@ -13,7 +14,8 @@ class TodoListCollection extends ResourceCollection
             'data' => $this->collection->map(function ($data) {
                 return [
                     'id' => (int) $data->id,
-                    'name' => $data->name
+                    'name' => $data->name,
+                    'tasks' => new TaskCollection($data->tasks)
                 ];
             })
         ];

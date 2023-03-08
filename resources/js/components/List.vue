@@ -85,7 +85,7 @@ export default defineComponent({
             errors: [],
             submit_data: false,
             newTask: "",
-            tasks: [],
+            tasks: props.list.tasks != null ? props.list.tasks.data : [],
             editTask: {},
             newTaskModalShow: false,
             listEditModalShow: false,
@@ -101,7 +101,7 @@ export default defineComponent({
         }
 
         onMounted(() => {
-            getTasks();
+            //   getTasks();
         });
         function editList() {
             emit('showListEditModal', props.list);

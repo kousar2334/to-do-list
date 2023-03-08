@@ -7,20 +7,20 @@
             </button>
         </div>
         <!--To do list-->
-        <div v-if="data.lists.length > 0" class="col-lg-3" v-for="(list, listIndex) in data.lists">
+        <div v-if="data.lists.length > 0 && !data.dataLoading" class="col-lg-3" v-for="(list, listIndex) in data.lists">
             <list :list="list" :index="listIndex" @show-list-edit-modal="editList" @delete-list="deleteList"></list>
         </div>
 
         <!--End to do list-->
         <div class="col-6 d-flex flex-column justify-content-center mt-5 mx-auto"
             v-if="data.lists.length < 1 && !data.dataLoading">
-            <p class="alert alert-danger">Not List found</p>
+            <p class="alert alert-danger">No List found</p>
             <button class="btn btn-success rounded" @click="data.newListModalShow = !data.newListModalShow">
                 Create First List
             </button>
         </div>
 
-        <b-pagination v-if="data.lists.length > 0" :value="data.currentPage" v-model="data.currentPage"
+        <b-pagination v-if="data.lists.length > 0 && !data.dataLoading" :value="data.currentPage" v-model="data.currentPage"
             :total-rows="data.totalItems" :per-page="data.perPage" @page-click="pagination" pills align="center"
             class="mt-5">
         </b-pagination>

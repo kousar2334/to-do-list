@@ -40,7 +40,7 @@ __webpack_require__.r(__webpack_exports__);
       errors: [],
       submit_data: false,
       newTask: "",
-      tasks: [],
+      tasks: props.list.tasks != null ? props.list.tasks.data : [],
       editTask: {},
       newTaskModalShow: false,
       listEditModalShow: false,
@@ -55,7 +55,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      getTasks();
+      //   getTasks();
     });
     function editList() {
       emit('showListEditModal', props.list);
@@ -669,7 +669,7 @@ var _hoisted_4 = {
 };
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "alert alert-danger"
-}, "Not List found", -1 /* HOISTED */);
+}, "No List found", -1 /* HOISTED */);
 var _hoisted_6 = {
   "class": "form-group pb-3"
 };
@@ -699,7 +699,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.data.newListModalShow = !_ctx.data.newListModalShow;
     })
-  }, " Add New List ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("To do list"), _ctx.data.lists.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, " Add New List ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("To do list"), _ctx.data.lists.length > 0 && !_ctx.data.dataLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.data.lists, function (list, listIndex) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_list, {
@@ -713,7 +713,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.data.newListModalShow = !_ctx.data.newListModalShow;
     })
-  }, " Create First List ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.data.lists.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_b_pagination, {
+  }, " Create First List ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.data.lists.length > 0 && !_ctx.data.dataLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_b_pagination, {
     key: 2,
     value: _ctx.data.currentPage,
     modelValue: _ctx.data.currentPage,
