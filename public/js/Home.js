@@ -22,7 +22,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_1__.defineComponent)({
   name: "List",
   components: {
@@ -54,9 +53,6 @@ __webpack_require__.r(__webpack_exports__);
         Authorization: "Bearer ".concat(store.getters.userToken)
       }
     };
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      //   getTasks();
-    });
     function editList() {
       emit('showListEditModal', props.list);
     }

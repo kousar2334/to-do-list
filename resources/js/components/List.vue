@@ -70,7 +70,6 @@ import { defineComponent, reactive } from "vue";
 import { useToast } from "vue-toastification";
 import TaskItem from './TaskItem.vue';
 import { useStore } from 'vuex';
-import { onMounted } from "vue";
 export default defineComponent({
     name: "List",
     components: { TaskItem },
@@ -100,9 +99,6 @@ export default defineComponent({
             },
         }
 
-        onMounted(() => {
-            //   getTasks();
-        });
         function editList() {
             emit('showListEditModal', props.list);
         }
