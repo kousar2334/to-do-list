@@ -159,6 +159,7 @@ export default defineComponent({
         }
 
         function getTasks() {
+            data.tasks = [];
             axios.post('api/v1/task-lists', {
                 page: data.currentPage,
                 list_id: props.list.id

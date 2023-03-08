@@ -10,6 +10,7 @@
         <div v-if="data.lists.length > 0" class="col-lg-3" v-for="(list, listIndex) in data.lists">
             <list :list="list" :index="listIndex" @show-list-edit-modal="editList" @delete-list="deleteList"></list>
         </div>
+
         <!--End to do list-->
         <div class="col-6 d-flex flex-column justify-content-center mt-5 mx-auto"
             v-if="data.lists.length < 1 && !data.dataLoading">
@@ -18,6 +19,12 @@
                 Create First List
             </button>
         </div>
+
+        <b-pagination v-if="data.lists.length > 0" :value="data.currentPage" v-model="data.currentPage"
+            :total-rows="data.totalItems" :per-page="data.perPage" @page-click="pagination" pills align="center"
+            class="mt-5">
+        </b-pagination>
+
 
         <!--New List modal-->
         <b-modal v-model="data.newListModalShow" title="Create New List" hide-footer>
@@ -82,6 +89,8 @@ export default defineComponent({
             listEditModalShow: false,
             dataLoading: true,
             currentPage: 1,
+            perPage: 4,
+            totalItems: 10,
         });
         const toast = useToast();
         const store = useStore();
@@ -132,7 +141,8 @@ export default defineComponent({
             }, config).then((response) => {
                 if (response.data.success) {
                     data.lists = response.data.data;
-                    data.currentPage = response.data.meta.current_page
+                    data.currentPage = response.data.meta.current_page;
+                    data.totalItems = response.data.meta.total
                 }
                 if (!response.data.success) {
                     toast.error("Data Loading failed");
@@ -196,13 +206,19 @@ export default defineComponent({
             });
         }
 
+        function pagination(event, page) {
+            data.currentPage = page;
+            getLists();
+        }
+
         return {
             data,
             storeNewList,
             getLists,
             updateList,
             editList,
-            deleteList
+            deleteList,
+            pagination
         };
     },
 
