@@ -88,7 +88,7 @@ var _hoisted_2 = {
 };
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
   "class": "pb-3"
-}, "Login Form", -1 /* HOISTED */);
+}, "Login", -1 /* HOISTED */);
 var _hoisted_4 = {
   "class": "form-style"
 };
